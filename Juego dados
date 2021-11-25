@@ -1,0 +1,95 @@
+//Código JavaScript
+function Jugador(nombre){
+    this.nombre = nombre;
+    this.caraDado1 = 0;
+    this.caraDado2 = 0;
+}
+
+function JuegoDados(numeroJuego, j1, j2){
+    this.numeroJuego = numeroJuego;
+    this.jugador1 = j1;
+    this.jugador2 = j2;
+
+    this.tirarDados = function() {
+        this.jugador1.caraDado1 =Math.floor(Math.random() * 6) + 1; //usar random(1,6)
+        this.jugador1.caraDado2 = Math.floor(Math.random() * 6) + 1; //usar random(1,6)
+
+        this.jugador2.caraDado1 = Math.floor(Math.random() * 6) + 1; //usar random(1,6)
+        this.jugador2.caraDado2 = Math.floor(Math.random() * 6) + 1; //usar random(1,6)
+    }
+
+    this.determinaGanador = function() {
+        if ( (this.jugador1.caraDado1 + this.jugador1.caraDado2 == 7)
+            && (this.jugador2.caraDado1 + this.jugador2.caraDado2 != 7) ) {
+            return this.jugador1.nombre;
+        }
+        else if ( (this.jugador2.caraDado1 + this.jugador2.caraDado2 == 7)
+            && (this.jugador1.caraDado1 + this.jugador2.caraDado1 != 7) ) {
+            return this.jugador2.nombre;
+        }
+        else return "Empate";
+    }
+
+}
+let juegoJugador1=0;
+
+let juegoJugador2=0;
+
+
+let player1 = new Jugador();
+
+let player2 = new Jugador();
+
+player1.nombre="Pedro Sánchez";
+
+player2.nombre="Antonio Ramírez";
+let i=1;
+
+let bandera=false;
+
+let empate=0;
+
+let torneoGanador="";
+
+let nombreGanador="";
+do{     
+    let juego1 = new JuegoDados(i, player1, player2);
+
+    juego1.tirarDados();
+
+    let ganador = juego1.determinaGanador();
+    
+    if(ganador === player1.nombre){
+        nombreGanador = player1.nombre
+        juegoJugador1++
+    }
+    if(ganador === player2.nombre){
+        nombreGanador = player2.nombre
+        juegoJugador2++
+    }
+    if(ganador === "Empate"){
+        empate++
+        nombreGanador = "Empate"
+    }
+
+    console.log("El ganador del juego "+ i +" es: " + nombreGanador);
+
+    if (juegoJugador1 === 3 || juegoJugador2 === 3){
+            
+        bandera=true;
+        if(juegoJugador1===3){
+            torneoGanador=player1.nombre;
+        }else{
+            torneoGanador=player2.nombre;
+                
+        }
+    }
+
+i=i+1;
+} while(bandera===false);
+
+console.log("Numero de juegos jugados: "+i);
+console.log("Ganador del torneo es: "+ torneoGanador);
+
+
+//Determinar el primer ganador de 3 juegos y cuantos juegos hubo
